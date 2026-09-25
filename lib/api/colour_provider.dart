@@ -1,20 +1,23 @@
 import 'package:GitSync/api/manager/storage.dart';
 import 'package:GitSync/global.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class Colours {
+class Colours extends ChangeNotifier {
   // system = null
   // dark   = true
   // light  = false
   bool darkMode = true;
 
-  Color get primaryLight => darkMode ? Color(0xFFFFFFFF) : Color(0xFF141414);
+  // Foreground (text/icon) colours.
+  Color get primaryLight => darkMode ? Color(0xFFF4F6F9) : Color(0xFF15181D);
   Color get secondaryLight => darkMode ? Color(0xFFAAAAAA) : Color(0xFF1C1C1C);
-  Color get tertiaryLight => darkMode ? Color(0xFF646464) : Color(0xFF2B2B2B);
+  Color get tertiaryLight => darkMode ? Color(0xFF6E7785) : Color(0xFF333A44);
 
-  Color get primaryDark => darkMode ? Color(0xFF141414) : Color(0xFFFFFFFF);
-  Color get secondaryDark => darkMode ? Color(0xFF1C1C1C) : Color(0xFFDDDDDD);
-  Color get tertiaryDark => darkMode ? Color(0xFF2B2B2B) : Color(0xFFBBBBBB);
+  // Surface (background) colours.
+  Color get primaryDark => darkMode ? Color(0xFF0E1218) : Color(0xFFFCFCFD);
+  Color get secondaryDark => darkMode ? Color(0xFF171C23) : Color(0xFFE9EDF2);
+  Color get tertiaryDark => darkMode ? Color(0xFF242B34) : Color(0xFFD2D8E0);
 
   Color get primaryPositive => darkMode ? Color(0xFF85F48E) : Color(0xFF3B8E59);
   Color get secondaryPositive => darkMode ? Color(0xFF4F7051) : Color(0xFFA7F3D0);
@@ -55,6 +58,10 @@ class Colours {
 
   Future<void> reloadTheme(BuildContext context) async {
     final newDarkMode = await repoManager.getBoolNullable(StorageKey.repoman_themeMode);
-    darkMode = newDarkMode ?? MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final resolved = newDarkMode ?? MediaQuery.of(context).platformBrightness == Brightness.dark;
+    if (resolved != darkMode) {
+      darkMode = resolved;
+      notifyListeners();
+    }
   }
 }

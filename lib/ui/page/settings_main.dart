@@ -4,6 +4,7 @@ import 'package:GitSync/type/git_provider.dart';
 import 'package:GitSync/ui/component/button_setting.dart';
 import 'package:GitSync/ui/component/sync_client_mode_toggle.dart';
 import 'package:flutter/material.dart';
+import 'package:GitSync/ui/transitions.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -119,8 +120,8 @@ class _SettingsMain extends ConsumerState<SettingsMain> with WidgetsBindingObser
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: colours.secondaryDark,
           systemNavigationBarColor: colours.secondaryDark,
-          statusBarIconBrightness: Brightness.light,
-          systemNavigationBarIconBrightness: Brightness.light,
+          statusBarIconBrightness: colours.darkMode ? Brightness.light : Brightness.dark,
+          systemNavigationBarIconBrightness: colours.darkMode ? Brightness.light : Brightness.dark,
         ),
         leading: getBackButton(context, () => Navigator.of(context).canPop() ? Navigator.pop(context) : null),
         centerTitle: true,
@@ -611,14 +612,6 @@ Route<String?> createSettingsMainRoute(BuildContext context, Object? args) {
         openGlobalSettings: argsMap["openGlobalSettings"] as VoidCallback?,
       ),
     ),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(position: animation.drive(tween), child: child);
-    },
+    transitionsBuilder: slideUpTransition,
   );
 }

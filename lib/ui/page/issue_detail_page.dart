@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:GitSync/ui/transitions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:GitSync/ui/component/markdown_config.dart';
@@ -994,8 +995,6 @@ Route createIssueDetailPageRoute({
       issueNumber: issueNumber,
       issueTitle: issueTitle,
     ),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return FadeTransition(opacity: animation, child: child);
-    },
+    transitionsBuilder: fadeRiseTransition,
   );
 }

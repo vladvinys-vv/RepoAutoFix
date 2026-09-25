@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:GitSync/ui/transitions.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:GitSync/ui/component/markdown_config.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -473,8 +474,6 @@ Route createReleasesPageRoute({
     settings: const RouteSettings(name: releases_page),
     pageBuilder: (context, animation, secondaryAnimation) =>
         ReleasesPage(gitProvider: gitProvider, remoteWebUrl: remoteWebUrl, accessToken: accessToken, githubAppOauth: githubAppOauth),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return FadeTransition(opacity: animation, child: child);
-    },
+    transitionsBuilder: fadeRiseTransition,
   );
 }

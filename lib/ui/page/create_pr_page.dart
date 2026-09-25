@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:GitSync/ui/transitions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:GitSync/ui/component/markdown_config.dart';
@@ -521,13 +523,20 @@ class _WritePreviewTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
-      child: Container(
+      onTap: () {
+        HapticFeedback.selectionClick();
+        onTap();
+      },
+      child: AnimatedContainer(
+        duration: animFast,
+        curve: Curves.easeOut,
         padding: EdgeInsets.symmetric(horizontal: spaceSM, vertical: spaceXXS),
         decoration: BoxDecoration(color: selected ? colours.tertiaryDark : Colors.transparent, borderRadius: BorderRadius.all(cornerRadiusXS)),
-        child: Text(
-          label,
+        child: AnimatedDefaultTextStyle(
+          duration: animFast,
+          curve: Curves.easeOut,
           style: TextStyle(color: selected ? colours.primaryLight : colours.tertiaryLight, fontSize: textXS, fontWeight: FontWeight.bold),
+          child: Text(label),
         ),
       ),
     );
@@ -544,8 +553,13 @@ class _TemplateChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
-      child: Container(
+      onTap: () {
+        HapticFeedback.selectionClick();
+        onTap();
+      },
+      child: AnimatedContainer(
+        duration: animFast,
+        curve: Curves.easeOut,
         padding: EdgeInsets.symmetric(horizontal: spaceSM, vertical: spaceXXS),
         decoration: BoxDecoration(
           color: selected ? colours.showcaseBg : colours.tertiaryDark,
@@ -553,9 +567,11 @@ class _TemplateChip extends StatelessWidget {
           border: Border.all(color: selected ? colours.showcaseBorder : Colors.transparent, width: spaceXXXXS),
         ),
         child: Center(
-          child: Text(
-            label,
+          child: AnimatedDefaultTextStyle(
+            duration: animFast,
+            curve: Curves.easeOut,
             style: TextStyle(color: selected ? colours.showcaseFeatureIcon : colours.secondaryLight, fontSize: textXS, fontWeight: FontWeight.bold),
+            child: Text(label),
           ),
         ),
       ),
@@ -573,8 +589,6 @@ Route createCreatePrPageRoute({
     settings: const RouteSettings(name: create_pr_page),
     pageBuilder: (context, animation, secondaryAnimation) =>
         CreatePrPage(gitProvider: gitProvider, remoteWebUrl: remoteWebUrl, accessToken: accessToken, githubAppOauth: githubAppOauth),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return FadeTransition(opacity: animation, child: child);
-    },
+    transitionsBuilder: fadeRiseTransition,
   );
 }

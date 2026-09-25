@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:GitSync/api/helper.dart';
 import 'package:GitSync/constant/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:GitSync/ui/transitions.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:GitSync/global.dart';
@@ -348,8 +349,8 @@ class _UnlockPremiumState extends ConsumerState<UnlockPremium> {
         value: SystemUiOverlayStyle.light.copyWith(
           statusBarColor: colours.premiumBg,
           systemNavigationBarColor: colours.premiumBg,
-          statusBarIconBrightness: Brightness.light,
-          systemNavigationBarIconBrightness: Brightness.light,
+          statusBarIconBrightness: colours.darkMode ? Brightness.light : Brightness.dark,
+          systemNavigationBarIconBrightness: colours.darkMode ? Brightness.light : Brightness.dark,
         ),
         child: SafeArea(
           child: Column(
@@ -681,12 +682,6 @@ Route<bool?> createUnlockPremiumRoute(BuildContext context, Object? args) {
   return PageRouteBuilder(
     settings: const RouteSettings(name: unlock_premium),
     pageBuilder: (context, animation, secondaryAnimation) => UnlockPremium(onboarding: args["onboarding"] ?? false),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-      return SlideTransition(position: animation.drive(tween), child: child);
-    },
+    transitionsBuilder: slideUpTransition,
   );
 }

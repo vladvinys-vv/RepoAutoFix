@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:GitSync/ui/transitions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:GitSync/api/manager/auth/git_provider_manager.dart';
@@ -611,8 +612,6 @@ Route createExpandedCommitsRoute({
       pendingFeatureIsAdd: pendingFeatureIsAdd,
       isAuthenticated: isAuthenticated,
     ),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return FadeTransition(opacity: animation, child: child);
-    },
+    transitionsBuilder: fadeRiseTransition,
   );
 }

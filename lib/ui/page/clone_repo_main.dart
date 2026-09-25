@@ -6,6 +6,7 @@ import 'package:GitSync/api/manager/storage.dart';
 import 'package:GitSync/ui/dialog/prompt_disable_ssl.dart' as PromptDisableSslDialog;
 import 'package:animated_reorderable_list/animated_reorderable_list.dart';
 import 'package:flutter/material.dart';
+import 'package:GitSync/ui/transitions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../api/helper.dart';
@@ -691,15 +692,7 @@ Route createCloneRepoMainRoute() {
   return PageRouteBuilder(
     settings: const RouteSettings(name: clone_repo_main),
     pageBuilder: (context, animation, secondaryAnimation) => const CloneRepoMain(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(position: animation.drive(tween), child: child);
-    },
+    transitionsBuilder: slideUpTransition,
   );
 }
 
@@ -708,12 +701,6 @@ Route<String?> createOnboardingCloneRepoMainRoute(BuildContext context, Object? 
   return PageRouteBuilder(
     settings: const RouteSettings(name: clone_repo_main),
     pageBuilder: (context, animation, secondaryAnimation) => const CloneRepoMain(onboarding: true),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-      return SlideTransition(position: animation.drive(tween), child: child);
-    },
+    transitionsBuilder: slideUpTransition,
   );
 }

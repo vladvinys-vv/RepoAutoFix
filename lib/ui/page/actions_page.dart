@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:GitSync/ui/transitions.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:GitSync/api/helper.dart';
 import 'package:GitSync/api/manager/auth/git_provider_manager.dart';
@@ -219,18 +221,24 @@ class _FilterChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: GestureDetector(
-        onTap: onTap,
-        child: Container(
+        onTap: () {
+          HapticFeedback.selectionClick();
+          onTap();
+        },
+        child: AnimatedContainer(
+          duration: animFast,
+          curve: Curves.easeOut,
           padding: EdgeInsets.symmetric(horizontal: spaceSM, vertical: spaceXXS),
           decoration: BoxDecoration(
             color: selected ? colours.showcaseBg : colours.tertiaryDark,
             borderRadius: BorderRadius.all(cornerRadiusSM),
             border: Border.all(color: selected ? colours.showcaseBorder : Colors.transparent, width: spaceXXXXS),
           ),
-          child: Text(
-            label,
-            textAlign: TextAlign.center,
+          child: AnimatedDefaultTextStyle(
+            duration: animFast,
+            curve: Curves.easeOut,
             style: TextStyle(color: selected ? colours.showcaseFeatureIcon : colours.secondaryLight, fontSize: textSM, fontWeight: FontWeight.bold),
+            child: Text(label, textAlign: TextAlign.center),
           ),
         ),
       ),
@@ -398,8 +406,6 @@ Route createActionsPageRoute({
     settings: const RouteSettings(name: actions_page),
     pageBuilder: (context, animation, secondaryAnimation) =>
         ActionsPage(gitProvider: gitProvider, remoteWebUrl: remoteWebUrl, accessToken: accessToken, githubAppOauth: githubAppOauth),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return FadeTransition(opacity: animation, child: child);
-    },
+    transitionsBuilder: fadeRiseTransition,
   );
 }

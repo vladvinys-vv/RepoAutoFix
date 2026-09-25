@@ -5,6 +5,7 @@ import 'package:GitSync/constant/dimens.dart';
 import 'package:GitSync/constant/strings.dart';
 import 'package:GitSync/global.dart';
 import 'package:flutter/material.dart';
+import 'package:GitSync/ui/transitions.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
 
@@ -24,8 +25,8 @@ class ImageViewer extends StatelessWidget {
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: colours.primaryDark,
           systemNavigationBarColor: colours.primaryDark,
-          statusBarIconBrightness: Brightness.light,
-          systemNavigationBarIconBrightness: Brightness.light,
+          statusBarIconBrightness: colours.darkMode ? Brightness.light : Brightness.dark,
+          systemNavigationBarIconBrightness: colours.darkMode ? Brightness.light : Brightness.dark,
         ),
         leading: getBackButton(context, () => Navigator.of(context).canPop() ? Navigator.pop(context) : null),
         title: Text(
@@ -47,14 +48,6 @@ Route createImageViewerRoute({required String path}) {
   return PageRouteBuilder(
     settings: const RouteSettings(name: image_viewer),
     pageBuilder: (context, animation, secondaryAnimation) => ImageViewer(path: path),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(position: animation.drive(tween), child: child);
-    },
+    transitionsBuilder: slideUpTransition,
   );
 }

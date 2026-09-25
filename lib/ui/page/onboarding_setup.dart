@@ -3711,8 +3711,8 @@ class _OnboardingSetup extends ConsumerState<OnboardingSetup> with WidgetsBindin
               value: SystemUiOverlayStyle.light.copyWith(
                 statusBarColor: colours.primaryDark,
                 systemNavigationBarColor: colours.primaryDark,
-                statusBarIconBrightness: Brightness.light,
-                systemNavigationBarIconBrightness: Brightness.light,
+                statusBarIconBrightness: colours.darkMode ? Brightness.light : Brightness.dark,
+                systemNavigationBarIconBrightness: colours.darkMode ? Brightness.light : Brightness.dark,
               ),
               child: Stack(
                 children: [

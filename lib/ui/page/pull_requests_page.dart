@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:GitSync/ui/transitions.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:GitSync/api/helper.dart';
 import 'package:GitSync/api/manager/auth/git_provider_manager.dart';
@@ -796,8 +797,6 @@ Route createPullRequestsPageRoute({
     settings: const RouteSettings(name: pull_requests_page),
     pageBuilder: (context, animation, secondaryAnimation) =>
         PullRequestsPage(gitProvider: gitProvider, remoteWebUrl: remoteWebUrl, accessToken: accessToken, githubAppOauth: githubAppOauth),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return FadeTransition(opacity: animation, child: child);
-    },
+    transitionsBuilder: fadeRiseTransition,
   );
 }

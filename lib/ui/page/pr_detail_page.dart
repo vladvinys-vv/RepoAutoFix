@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:GitSync/ui/transitions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:GitSync/ui/component/markdown_config.dart';
@@ -20,6 +21,7 @@ import 'package:GitSync/type/pull_request.dart';
 import 'package:GitSync/ui/component/post_footer_indicator.dart';
 import 'package:GitSync/ui/page/code_editor.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:flutter/services.dart';
 
 class PrDetailPage extends ConsumerStatefulWidget {
   final GitProvider gitProvider;
@@ -346,8 +348,14 @@ class _PrDetailPageState extends ConsumerState<PrDetailPage> with SingleTickerPr
         tabAlignment: TabAlignment.start,
         labelColor: colours.primaryLight,
         unselectedLabelColor: colours.secondaryLight,
-        indicatorColor: colours.tertiaryInfo,
+        indicator: BoxDecoration(
+          color: colours.tertiaryInfo.withAlpha(colours.darkMode ? 60 : 35),
+          borderRadius: BorderRadius.all(cornerRadiusMax),
+        ),
         indicatorSize: TabBarIndicatorSize.label,
+        indicatorPadding: EdgeInsets.symmetric(vertical: spaceXXS),
+        onTap: (_) => HapticFeedback.selectionClick(),
+        overlayColor: WidgetStatePropertyAll(colours.tertiaryInfo.withAlpha(40)),
         labelStyle: TextStyle(fontSize: textXS, fontWeight: FontWeight.bold),
         unselectedLabelStyle: TextStyle(fontSize: textXS, fontWeight: FontWeight.bold),
         tabs: [
@@ -1309,8 +1317,6 @@ Route createPrDetailPageRoute({
       prNumber: prNumber,
       prTitle: prTitle,
     ),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return FadeTransition(opacity: animation, child: child);
-    },
+    transitionsBuilder: fadeRiseTransition,
   );
 }

@@ -14,6 +14,7 @@ import 'package:GitSync/ui/component/code_line_number_render_object.dart';
 import 'package:GitSync/ui/dialog/info_dialog.dart' as InfoDialog;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:GitSync/ui/transitions.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -231,8 +232,8 @@ class _CodeEditor extends State<CodeEditor> {
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: colours.primaryDark,
           systemNavigationBarColor: colours.primaryDark,
-          statusBarIconBrightness: Brightness.light,
-          systemNavigationBarIconBrightness: Brightness.light,
+          statusBarIconBrightness: colours.darkMode ? Brightness.light : Brightness.dark,
+          systemNavigationBarIconBrightness: colours.darkMode ? Brightness.light : Brightness.dark,
         ),
         leading: getBackButton(context, () => (Navigator.of(context).canPop() ? Navigator.pop(context) : null)),
         title: SizedBox(
@@ -844,14 +845,6 @@ Route createCodeEditorRoute(List<String> paths, {EditorType type = EditorType.DE
   return PageRouteBuilder(
     settings: const RouteSettings(name: code_editor),
     pageBuilder: (context, animation, secondaryAnimation) => CodeEditor(paths: paths, type: type, deviceInfoEntries: deviceInfoEntries),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(position: animation.drive(tween), child: child);
-    },
+    transitionsBuilder: slideUpTransition,
   );
 }

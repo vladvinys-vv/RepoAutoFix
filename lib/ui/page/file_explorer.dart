@@ -16,6 +16,7 @@ import 'package:GitSync/ui/page/code_editor.dart';
 import 'package:extended_text/extended_text.dart';
 import 'package:file_manager/file_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:GitSync/ui/transitions.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -953,14 +954,6 @@ Route createFileExplorerRoute(List<GitManagerRs.Commit> recentCommits, String pa
   return PageRouteBuilder(
     settings: const RouteSettings(name: file_explorer),
     pageBuilder: (context, animation, secondaryAnimation) => FileExplorer(recentCommits, path: path),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(position: animation.drive(tween), child: child);
-    },
+    transitionsBuilder: slideUpTransition,
   );
 }

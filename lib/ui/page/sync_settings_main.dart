@@ -1,5 +1,6 @@
 import 'package:GitSync/ui/component/group_sync_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:GitSync/ui/transitions.dart';
 import '../../../api/helper.dart';
 import '../../../constant/dimens.dart';
 import '../../../constant/strings.dart';
@@ -73,14 +74,6 @@ Route createSyncSettingsMainRoute() {
   return PageRouteBuilder(
     settings: const RouteSettings(name: sync_settings_main),
     pageBuilder: (context, animation, secondaryAnimation) => SyncSettingsMain(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(position: animation.drive(tween), child: child);
-    },
+    transitionsBuilder: slideUpTransition,
   );
 }

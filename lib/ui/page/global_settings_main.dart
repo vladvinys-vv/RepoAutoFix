@@ -17,6 +17,7 @@ import 'package:GitSync/ui/page/file_explorer.dart';
 import 'package:archive/archive_io.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:GitSync/ui/transitions.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -103,8 +104,8 @@ class _GlobalSettingsMain extends ConsumerState<GlobalSettingsMain> with Widgets
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: colours.primaryDark,
           systemNavigationBarColor: colours.primaryDark,
-          statusBarIconBrightness: Brightness.light,
-          systemNavigationBarIconBrightness: Brightness.light,
+          statusBarIconBrightness: colours.darkMode ? Brightness.light : Brightness.dark,
+          systemNavigationBarIconBrightness: colours.darkMode ? Brightness.light : Brightness.dark,
         ),
         leading: getBackButton(context, () => Navigator.of(context).canPop() ? Navigator.pop(context) : null),
         centerTitle: true,
@@ -1057,14 +1058,6 @@ Route<String?> createGlobalSettingsMainRoute(BuildContext context, Object? args)
     settings: const RouteSettings(name: global_settings_main),
     pageBuilder: (context, animation, secondaryAnimation) =>
         ShowCaseWidget(builder: (context) => GlobalSettingsMain(onboarding: args_["onboarding"] == true)),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(position: animation.drive(tween), child: child);
-    },
+    transitionsBuilder: slideUpTransition,
   );
 }

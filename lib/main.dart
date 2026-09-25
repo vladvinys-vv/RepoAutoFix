@@ -757,7 +757,18 @@ class _MyAppState extends State<MyApp> {
       colours.reloadTheme(context);
       setState(() {});
     });
+    colours.addListener(_onColoursChanged);
     super.initState();
+  }
+
+  void _onColoursChanged() {
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void dispose() {
+    colours.removeListener(_onColoursChanged);
+    super.dispose();
   }
 
   @override
@@ -781,15 +792,20 @@ class _MyAppState extends State<MyApp> {
           return const Locale('en');
         },
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: colours.primaryDark),
+          colorScheme: ColorScheme.fromSeed(seedColor: colours.primaryInfo, brightness: colours.darkMode ? Brightness.dark : Brightness.light),
           useMaterial3: true,
+          scaffoldBackgroundColor: colours.primaryDark,
           textSelectionTheme: TextSelectionThemeData(
             selectionHandleColor: colours.tertiaryInfo,
             selectionColor: colours.secondaryInfo.withAlpha(100),
             cursorColor: colours.secondaryInfo.withAlpha(150),
           ),
         ),
-        builder: (context, child) => Container(
+        themeAnimationDuration: animMedium,
+        themeAnimationCurve: Curves.easeInOut,
+        builder: (context, child) => AnimatedContainer(
+          duration: animMedium,
+          curve: Curves.easeInOut,
           color: colours.primaryDark,
           child: SafeArea(
             top: false,
@@ -1232,7 +1248,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> with WidgetsBindingObse
       Navigator.of(context).popUntil((route) => route.isFirst);
       _homeNavigatorKey.currentState?.popUntil((route) => route.isFirst);
       _tabIndex.value = 0;
-      _pageController.animateToPage(0, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+      _pageController.animateToPage(0, duration: const Duration(milliseconds: 350), curve: Curves.easeOutCubic);
     };
 
     initAsync(() async {
@@ -1826,7 +1842,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> with WidgetsBindingObse
         void goToHomeTab() {
           final homeIndex = aiEnabled ? 1 : 0;
           _tabIndex.value = homeIndex;
-          _pageController.animateToPage(homeIndex, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+          _pageController.animateToPage(homeIndex, duration: const Duration(milliseconds: 350), curve: Curves.easeOutCubic);
         }
 
         return ValueListenableBuilder(
@@ -1891,7 +1907,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> with WidgetsBindingObse
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted || !_pageController.hasClients) return;
         if ((_pageController.page ?? _pageController.initialPage.toDouble()).round() != newIndex) {
-          _pageController.jumpToPage(newIndex);
+          _pageController.animateToPage(newIndex, duration: animFast, curve: Curves.easeOutCubic);
         }
       });
     });
@@ -1909,8 +1925,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> with WidgetsBindingObse
             systemOverlayStyle: SystemUiOverlayStyle(
               statusBarColor: colours.primaryDark,
               systemNavigationBarColor: colours.primaryDark,
-              statusBarIconBrightness: Brightness.light,
-              systemNavigationBarIconBrightness: Brightness.light,
+              statusBarIconBrightness: colours.darkMode ? Brightness.light : Brightness.dark,
+              systemNavigationBarIconBrightness: colours.darkMode ? Brightness.light : Brightness.dark,
             ),
             title: Padding(
               padding: EdgeInsets.only(left: spaceMD, bottom: spaceXXS),
@@ -1960,7 +1976,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> with WidgetsBindingObse
                   style: ButtonStyle(tapTargetSize: MaterialTapTargetSize.shrinkWrap),
                   constraints: BoxConstraints(),
                   onPressed: () => _restorableGlobalSettings.present({}),
-                  icon: FaIcon(FontAwesomeIcons.gear, color: colours.tertiaryDark, size: spaceMD + 7, semanticLabel: t.globalSettings),
+                  icon: FaIcon(FontAwesomeIcons.gear, color: colours.secondaryLight, size: spaceMD + 7, semanticLabel: t.globalSettings),
                 ),
               ),
               SizedBox(width: spaceSM),
@@ -2225,7 +2241,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> with WidgetsBindingObse
                           onPopInvokedWithResult: (didPop, _) {
                             if (!didPop) {
                               _tabIndex.value = 1;
-                              _pageController.animateToPage(1, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+                              _pageController.animateToPage(1, duration: const Duration(milliseconds: 350), curve: Curves.easeOutCubic);
                             }
                           },
                           child: child!,
@@ -4303,6 +4319,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> with WidgetsBindingObse
           bottomNavigationBar: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Container(height: spaceXXXXS, color: colours.tertiaryDark),
               Consumer(
                 builder: (context, ref, _) {
                   final aiEnabled = ref.watch(aiFeaturesEnabledProvider).valueOrNull ?? true;
@@ -4322,28 +4339,23 @@ class _MyHomePageState extends ConsumerState<MyHomePage> with WidgetsBindingObse
                       child: NavigationBar(
                         selectedIndex: currentTabIndex.clamp(0, aiEnabled ? 2 : 1),
                         onDestinationSelected: (i) {
-                          if (aiEnabled) {
-                            if (i == 1 && _tabIndex.value == 1) {
+                          HapticFeedback.selectionClick();
+                          if (i == currentTabIndex) {
+                            // Re-tapping the active tab unwinds its stack back to the root screen.
+                            if (aiEnabled ? i == 1 : i == 0) {
                               _homeNavigatorKey.currentState?.popUntil((route) => route.isFirst);
-                            } else if (i == 2 && _tabIndex.value == 2) {
+                            } else if (aiEnabled ? i == 2 : i == 1) {
                               _filesNavigatorKey.currentState?.popUntil((route) => route.isFirst);
-                            } else {
-                              _tabIndex.value = i;
-                              _pageController.animateToPage(i, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
                             }
-                          } else {
-                            if (i == 0 && _tabIndex.value == 0) {
-                              _homeNavigatorKey.currentState?.popUntil((route) => route.isFirst);
-                            } else if (i == 1 && _tabIndex.value == 1) {
-                              _filesNavigatorKey.currentState?.popUntil((route) => route.isFirst);
-                            } else {
-                              _tabIndex.value = i;
-                              _pageController.animateToPage(i, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
-                            }
+                            return;
                           }
+                          _tabIndex.value = i;
+                          _pageController.animateToPage(i, duration: const Duration(milliseconds: 350), curve: Curves.easeOutCubic);
                         },
+                        animationDuration: animMedium,
                         backgroundColor: colours.secondaryDark,
-                        indicatorColor: colours.tertiaryDark,
+                        indicatorColor: colours.tertiaryInfo.withAlpha(colours.darkMode ? 60 : 35),
+                        overlayColor: WidgetStatePropertyAll(colours.tertiaryInfo.withAlpha(45)),
                         surfaceTintColor: Colors.transparent,
                         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
                         height: 64,
