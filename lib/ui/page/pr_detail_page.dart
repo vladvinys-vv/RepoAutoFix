@@ -125,6 +125,7 @@ class _PrDetailPageState extends ConsumerState<PrDetailPage> with SingleTickerPr
   }
 
   Future<void> _toggleReaction(String targetId, String reaction, bool isComment, bool hasReacted) async {
+    HapticFeedback.selectionClick();
     final (owner, repo) = _parseOwnerRepo();
     final manager = _manager;
     if (manager == null) return;

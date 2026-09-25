@@ -302,99 +302,110 @@ class _DiffFileState extends ConsumerState<DiffFile> with AutomaticKeepAliveClie
             ),
           ),
           SizedBox(width: MediaQuery.sizeOf(context).width, height: expanded ? spaceXXS : 0),
-          if (expanded) ...[
-            SizedBox(height: spaceXXXS),
-            Row(
-              children: [
-                SizedBox(width: spaceSM),
-                Expanded(
-                  child: TextButton.icon(
-                    onPressed: () async {
-                      print(widget.entry.key);
-                      print(widget.openedFromFile);
-                      if (widget.entry.key.contains(conflictSeparator)) {
-                        if (widget.openedFromFile != null && widget.entry.key.split(conflictSeparator)[1].substring(0, 7) == widget.openedFromFile) {
-                          await Navigator.of(context).canPop() ? Navigator.pop(context) : null;
-                        } else {
-                          final reference = widget.entry.key.split(conflictSeparator)[1];
-                          print(reference);
-                          final commitIndex = widget.recentCommits.indexWhere((commit) => commit.reference == reference);
-                          final commit = widget.recentCommits[commitIndex];
-                          final prevCommit = commitIndex + 1 >= widget.recentCommits.length ? null : widget.recentCommits[commitIndex + 1];
-                          print(widget.recentCommits);
-                          print(commitIndex);
+          AnimatedSize(
+            duration: animFast,
+            curve: Curves.easeOut,
+            alignment: AlignmentDirectional.topStart,
+            child: expanded
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(height: spaceXXXS),
+                      Row(
+                        children: [
+                          SizedBox(width: spaceSM),
+                          Expanded(
+                            child: TextButton.icon(
+                              onPressed: () async {
+                                print(widget.entry.key);
+                                print(widget.openedFromFile);
+                                if (widget.entry.key.contains(conflictSeparator)) {
+                                  if (widget.openedFromFile != null && widget.entry.key.split(conflictSeparator)[1].substring(0, 7) == widget.openedFromFile) {
+                                    await Navigator.of(context).canPop() ? Navigator.pop(context) : null;
+                                  } else {
+                                    final reference = widget.entry.key.split(conflictSeparator)[1];
+                                    print(reference);
+                                    final commitIndex = widget.recentCommits.indexWhere((commit) => commit.reference == reference);
+                                    final commit = widget.recentCommits[commitIndex];
+                                    final prevCommit = commitIndex + 1 >= widget.recentCommits.length ? null : widget.recentCommits[commitIndex + 1];
+                                    print(widget.recentCommits);
+                                    print(commitIndex);
 
-                          await DiffViewDialog.showDialog(
-                            context,
-                            widget.recentCommits,
-                            (commit.reference, prevCommit?.reference),
-                            commit.reference.substring(0, 7),
-                            (commit, prevCommit),
-                            widget.filePath,
-                          );
-                        }
-                      } else {
-                        if (widget.openedFromFile != null && widget.entry.key == widget.openedFromFile) {
-                          await Navigator.of(context).canPop() ? Navigator.pop(context) : null;
-                        } else {
-                          await DiffViewDialog.showDialog(
-                            context,
-                            widget.recentCommits,
-                            (null, widget.entry.key),
-                            widget.entry.key,
-                            null,
-                            widget.filePath,
-                          );
-                        }
-                      }
-                    },
+                                    await DiffViewDialog.showDialog(
+                                      context,
+                                      widget.recentCommits,
+                                      (commit.reference, prevCommit?.reference),
+                                      commit.reference.substring(0, 7),
+                                      (commit, prevCommit),
+                                      widget.filePath,
+                                    );
+                                  }
+                                } else {
+                                  if (widget.openedFromFile != null && widget.entry.key == widget.openedFromFile) {
+                                    await Navigator.of(context).canPop() ? Navigator.pop(context) : null;
+                                  } else {
+                                    await DiffViewDialog.showDialog(
+                                      context,
+                                      widget.recentCommits,
+                                      (null, widget.entry.key),
+                                      widget.entry.key,
+                                      null,
+                                      widget.filePath,
+                                    );
+                                  }
+                                }
+                              },
 
-                    style: ButtonStyle(
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      padding: WidgetStatePropertyAll(EdgeInsets.zero),
-                      backgroundColor: WidgetStatePropertyAll(colours.tertiaryDark),
-                      visualDensity: VisualDensity.compact,
-                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(cornerRadiusSM))),
-                    ),
-                    icon: FaIcon(
-                      widget.entry.key.contains(conflictSeparator) ? FontAwesomeIcons.codeCommit : FontAwesomeIcons.scroll,
-                      color: colours.tertiaryInfo,
-                      size: textXS,
-                    ),
-                    label: Text(
-                      "${t.open} ${widget.entry.key.contains(conflictSeparator) ? t.commit : t.fileDiff}".toUpperCase(),
-                      style: TextStyle(color: colours.tertiaryInfo, fontSize: textXS, overflow: TextOverflow.ellipsis, fontWeight: FontWeight.w900),
-                    ),
-                  ),
-                ),
-                SizedBox(width: spaceSM),
-                Expanded(
-                  child: TextButton.icon(
-                    onPressed: () async {
-                      await viewOrEditFile(
-                        context,
-                        "${ref.read(gitDirPathProvider).valueOrNull?.$2}/${widget.entry.key.contains(conflictSeparator) ? widget.filePath : widget.entry.key}",
-                      );
-                    },
-                    style: ButtonStyle(
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      padding: WidgetStatePropertyAll(EdgeInsets.zero),
-                      backgroundColor: WidgetStatePropertyAll(colours.tertiaryDark),
-                      visualDensity: VisualDensity.compact,
-                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(cornerRadiusSM))),
-                    ),
-                    icon: FaIcon(FontAwesomeIcons.filePen, color: colours.tertiaryInfo, size: textXS),
-                    label: Text(
-                      t.openEditFile.toUpperCase(),
-                      style: TextStyle(color: colours.tertiaryInfo, fontSize: textXS, overflow: TextOverflow.ellipsis, fontWeight: FontWeight.w900),
-                    ),
-                  ),
-                ),
-                SizedBox(width: spaceSM),
-              ],
-            ),
-            SizedBox(height: spaceXS),
-          ],
+                              style: ButtonStyle(
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                padding: WidgetStatePropertyAll(EdgeInsets.zero),
+                                backgroundColor: WidgetStatePropertyAll(colours.tertiaryDark),
+                                visualDensity: VisualDensity.compact,
+                                shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(cornerRadiusSM))),
+                              ),
+                              icon: FaIcon(
+                                widget.entry.key.contains(conflictSeparator) ? FontAwesomeIcons.codeCommit : FontAwesomeIcons.scroll,
+                                color: colours.tertiaryInfo,
+                                size: textXS,
+                              ),
+                              label: Text(
+                                "${t.open} ${widget.entry.key.contains(conflictSeparator) ? t.commit : t.fileDiff}".toUpperCase(),
+                                style: TextStyle(color: colours.tertiaryInfo, fontSize: textXS, overflow: TextOverflow.ellipsis, fontWeight: FontWeight.w900),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: spaceSM),
+                          Expanded(
+                            child: TextButton.icon(
+                              onPressed: () async {
+                                await viewOrEditFile(
+                                  context,
+                                  "${ref.read(gitDirPathProvider).valueOrNull?.$2}/${widget.entry.key.contains(conflictSeparator) ? widget.filePath : widget.entry.key}",
+                                );
+                              },
+                              style: ButtonStyle(
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                padding: WidgetStatePropertyAll(EdgeInsets.zero),
+                                backgroundColor: WidgetStatePropertyAll(colours.tertiaryDark),
+                                visualDensity: VisualDensity.compact,
+                                shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(cornerRadiusSM))),
+                              ),
+                              icon: FaIcon(FontAwesomeIcons.filePen, color: colours.tertiaryInfo, size: textXS),
+                              label: Text(
+                                t.openEditFile.toUpperCase(),
+                                style: TextStyle(color: colours.tertiaryInfo, fontSize: textXS, overflow: TextOverflow.ellipsis, fontWeight: FontWeight.w900),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: spaceSM),
+                        ],
+                      ),
+                      SizedBox(height: spaceXS),
+                    ],
+                  )
+                : SizedBox.shrink(),
+          ),
           expanded && widget.entry.value.isNotEmpty
               ? AnimatedSize(
                   duration: animFast,

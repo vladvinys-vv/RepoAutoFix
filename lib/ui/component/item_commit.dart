@@ -264,6 +264,7 @@ class _ItemCommit extends ConsumerState<ItemCommit> with SingleTickerProviderSta
   }
 
   void _toggleSelection() {
+    HapticFeedback.selectionClick();
     final shas = widget.selectedShas!;
     final sha = widget.commit.reference;
     if (shas.value.contains(sha)) {

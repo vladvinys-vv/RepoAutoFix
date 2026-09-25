@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:GitSync/ui/transitions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:markdown_widget/markdown_widget.dart';
@@ -126,6 +127,7 @@ class _IssueDetailPageState extends ConsumerState<IssueDetailPage> {
   }
 
   Future<void> _toggleIssueState() async {
+    HapticFeedback.selectionClick();
     final detail = _detail;
     if (detail == null) return;
 
@@ -173,6 +175,7 @@ class _IssueDetailPageState extends ConsumerState<IssueDetailPage> {
   }
 
   Future<void> _toggleReaction(String targetId, String reaction, bool isComment, bool hasReacted) async {
+    HapticFeedback.selectionClick();
     final (owner, repo) = _parseOwnerRepo();
     final manager = _manager;
     if (manager == null) return;

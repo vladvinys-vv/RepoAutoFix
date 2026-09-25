@@ -11,6 +11,7 @@ import 'package:GitSync/api/ai_sensitive_path.dart';
 import 'package:animated_reorderable_list/animated_reorderable_list.dart';
 import 'package:flutter/material.dart' as mat;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:GitSync/api/helper.dart';
@@ -183,6 +184,7 @@ Future<void> showDialog(BuildContext parentContext, List<(String, GitManagerRs.C
   }
 
   void toggleLineSelection(int sectionKey, bool isLocal, int lineIndex, void Function(void Function()) setState) {
+    HapticFeedback.selectionClick();
     final key = (isLocal: isLocal, lineIndex: lineIndex);
     selectedLines.putIfAbsent(sectionKey, () => {});
     if (selectedLines[sectionKey]!.contains(key)) {

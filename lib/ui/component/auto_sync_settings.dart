@@ -328,13 +328,20 @@ class _AutoSyncSettingsState extends State<AutoSyncSettings> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                if (expandedSnapshot.data == true) ...[
-                                  SizedBox(height: spaceXXXXS),
-                                  Text(
-                                    Platform.isIOS ? t.appSyncIosDescription : t.appSyncDescription,
-                                    style: TextStyle(color: colours.secondaryLight, fontSize: textMD),
-                                  ),
-                                ],
+                                AnimatedSize(
+                                  duration: animFast,
+                                  curve: Curves.easeOut,
+                                  alignment: AlignmentDirectional.topStart,
+                                  child: expandedSnapshot.data == true
+                                      ? Padding(
+                                          padding: EdgeInsets.only(top: spaceXXXXS),
+                                          child: Text(
+                                            Platform.isIOS ? t.appSyncIosDescription : t.appSyncDescription,
+                                            style: TextStyle(color: colours.secondaryLight, fontSize: textMD),
+                                          ),
+                                        )
+                                      : SizedBox.shrink(),
+                                ),
                               ],
                             ),
                           ),

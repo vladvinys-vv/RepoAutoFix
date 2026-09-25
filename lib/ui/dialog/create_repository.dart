@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' as mat;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../constant/dimens.dart';
 import '../../../ui/dialog/base_alert_dialog.dart';
 import 'package:GitSync/global.dart';
@@ -208,7 +209,10 @@ class _OAuthCreateRepoDialogState extends State<_OAuthCreateRepoDialog> {
             ),
             SizedBox(height: spaceMD),
             GestureDetector(
-              onTap: () => setState(() => _initMainBranch = !_initMainBranch),
+              onTap: () {
+                HapticFeedback.selectionClick();
+                setState(() => _initMainBranch = !_initMainBranch);
+              },
               child: Row(
                 children: [
                   SizedBox(
@@ -216,7 +220,10 @@ class _OAuthCreateRepoDialogState extends State<_OAuthCreateRepoDialog> {
                     height: 24,
                     child: Checkbox(
                       value: _initMainBranch,
-                      onChanged: (v) => setState(() => _initMainBranch = v ?? true),
+                      onChanged: (v) {
+                        HapticFeedback.selectionClick();
+                        setState(() => _initMainBranch = v ?? true);
+                      },
                       activeColor: colours.tertiaryInfo,
                       checkColor: colours.primaryLight,
                       side: BorderSide(color: colours.tertiaryLight),
