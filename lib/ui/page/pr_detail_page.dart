@@ -1227,13 +1227,16 @@ class _PrDetailPageState extends ConsumerState<PrDetailPage> with SingleTickerPr
                 children: [
                   GestureDetector(
                     onTap: hasPatch
-                        ? () => setState(() {
-                            if (expanded) {
-                              _expandedFiles.remove(index);
-                            } else {
-                              _expandedFiles.add(index);
-                            }
-                          })
+                        ? () {
+                            HapticFeedback.selectionClick();
+                            setState(() {
+                              if (expanded) {
+                                _expandedFiles.remove(index);
+                              } else {
+                                _expandedFiles.add(index);
+                              }
+                            });
+                          }
                         : null,
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: spaceSM, vertical: spaceXS),
@@ -1272,15 +1275,21 @@ class _PrDetailPageState extends ConsumerState<PrDetailPage> with SingleTickerPr
                       ),
                     ),
                   ),
-                  if (expanded && hasPatch)
-                    SizedBox(
-                      height: (file.patch!.split('\n').length * 20.0).clamp(100.0, 400.0),
-                      width: double.infinity,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: spaceSM, bottom: spaceSM),
-                        child: Editor(type: EditorType.DIFF, text: _convertPatchToMarkerFormat(file.patch!)),
-                      ),
-                    ),
+                  AnimatedSize(
+                    duration: animFast,
+                    curve: Curves.easeOut,
+                    alignment: AlignmentDirectional.topStart,
+                    child: expanded && hasPatch
+                        ? SizedBox(
+                            height: (file.patch!.split('\n').length * 20.0).clamp(100.0, 400.0),
+                            width: double.infinity,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: spaceSM, bottom: spaceSM),
+                              child: Editor(type: EditorType.DIFF, text: _convertPatchToMarkerFormat(file.patch!)),
+                            ),
+                          )
+                        : SizedBox.shrink(),
+                  ),
                 ],
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:GitSync/constant/dimens.dart';
 import 'package:html/dom.dart' as h;
 import 'package:markdown/markdown.dart' as m;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:html/parser.dart';
 import 'package:html/dom_parsing.dart';
 import 'package:markdown_widget/markdown_widget.dart';
@@ -181,7 +182,10 @@ class _DetailsWidgetState extends State<_DetailsWidget> {
       mainAxisSize: MainAxisSize.min,
       children: [
         GestureDetector(
-          onTap: () => setState(() => _expanded = !_expanded),
+          onTap: () {
+            HapticFeedback.selectionClick();
+            setState(() => _expanded = !_expanded);
+          },
           child: Stack(
             clipBehavior: Clip.none,
             children: [

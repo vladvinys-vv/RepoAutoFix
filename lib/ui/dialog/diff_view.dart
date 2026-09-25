@@ -252,26 +252,31 @@ Future<void> showDialog(
                               Flexible(
                                 child: Container(
                                   constraints: BoxConstraints(maxHeight: textSM * 5),
-                                  child: ShaderMask(
-                                    shaderCallback: (Rect rect) {
-                                      return LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [Colors.transparent, Colors.transparent, Colors.transparent, Colors.black],
-                                        stops: [0, 0.05, 0.95, 1.0],
-                                      ).createShader(rect);
-                                    },
-                                    blendMode: BlendMode.dstOut,
-                                    child: SingleChildScrollView(
-                                      child: Text(
-                                        data.$1.commitMessage.contains("\n") && !commitMessageExpanded
-                                            ? data.$1.commitMessage.split("\n").first
-                                            : data.$1.commitMessage,
-                                        maxLines: commitMessageExpanded ? null : 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.left,
-                                        softWrap: true,
-                                        style: TextStyle(color: colours.tertiaryLight, fontSize: textSM, fontWeight: FontWeight.bold),
+                                  child: AnimatedSize(
+                                    duration: animFast,
+                                    curve: Curves.easeOut,
+                                    alignment: AlignmentDirectional.topStart,
+                                    child: ShaderMask(
+                                      shaderCallback: (Rect rect) {
+                                        return LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [Colors.transparent, Colors.transparent, Colors.transparent, Colors.black],
+                                          stops: [0, 0.05, 0.95, 1.0],
+                                        ).createShader(rect);
+                                      },
+                                      blendMode: BlendMode.dstOut,
+                                      child: SingleChildScrollView(
+                                        child: Text(
+                                          data.$1.commitMessage.contains("\n") && !commitMessageExpanded
+                                              ? data.$1.commitMessage.split("\n").first
+                                              : data.$1.commitMessage,
+                                          maxLines: commitMessageExpanded ? null : 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.left,
+                                          softWrap: true,
+                                          style: TextStyle(color: colours.tertiaryLight, fontSize: textSM, fontWeight: FontWeight.bold),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -287,6 +292,7 @@ Future<void> showDialog(
                                     visualDensity: VisualDensity.compact,
                                     constraints: BoxConstraints(),
                                     onPressed: () async {
+                                      HapticFeedback.selectionClick();
                                       commitMessageExpanded = !commitMessageExpanded;
                                       setState(() {});
                                     },
