@@ -185,6 +185,7 @@ class _GlobalSettingsMain extends ConsumerState<GlobalSettingsMain> with Widgets
                                 ),
                                 child: TextButton.icon(
                                   onPressed: () async {
+                                    HapticFeedback.selectionClick();
                                     await repoManager.setBoolNullable(StorageKey.repoman_themeMode, false);
                                     colours.reloadTheme(context);
                                     setState(() {});
@@ -246,6 +247,7 @@ class _GlobalSettingsMain extends ConsumerState<GlobalSettingsMain> with Widgets
                                 child: Container(
                                   child: TextButton.icon(
                                     onPressed: () async {
+                                      HapticFeedback.selectionClick();
                                       await repoManager.setBoolNullable(StorageKey.repoman_themeMode, null);
                                       colours.reloadTheme(context);
                                       setState(() {});
@@ -307,6 +309,7 @@ class _GlobalSettingsMain extends ConsumerState<GlobalSettingsMain> with Widgets
                                 ),
                                 child: TextButton.icon(
                                   onPressed: () async {
+                                    HapticFeedback.selectionClick();
                                     await repoManager.setBoolNullable(StorageKey.repoman_themeMode, true);
                                     colours.reloadTheme(context);
                                     setState(() {});

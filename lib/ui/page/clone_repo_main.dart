@@ -6,6 +6,7 @@ import 'package:GitSync/api/manager/storage.dart';
 import 'package:GitSync/ui/dialog/prompt_disable_ssl.dart' as PromptDisableSslDialog;
 import 'package:animated_reorderable_list/animated_reorderable_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:GitSync/ui/transitions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -366,7 +367,10 @@ class _CloneRepoMain extends ConsumerState<CloneRepoMain> with WidgetsBindingObs
                                             fit: BoxFit.fill,
                                             child: Switch(
                                               value: _bareClone,
-                                              onChanged: (value) => setState(() => _bareClone = value),
+                                              onChanged: (value) {
+                                                HapticFeedback.selectionClick();
+                                                setState(() => _bareClone = value);
+                                              },
                                               padding: EdgeInsets.zero,
                                               thumbColor: WidgetStatePropertyAll(_bareClone ? colours.primaryPositive : colours.tertiaryDark),
                                               trackOutlineColor: WidgetStatePropertyAll(Colors.transparent),

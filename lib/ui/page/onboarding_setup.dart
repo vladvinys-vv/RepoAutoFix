@@ -3365,14 +3365,14 @@ class _OnboardingSetup extends ConsumerState<OnboardingSetup> with WidgetsBindin
                                 children: [
                                   FaIcon(
                                     settingsBody != null ? FontAwesomeIcons.chevronDown : FontAwesomeIcons.squareArrowUpRight,
-                                    color: colours.tertiaryLight,
+                                    color: colours.primaryDark,
                                     size: textXS,
                                   ),
                                   SizedBox(width: spaceXXS),
                                   Text(
                                     settingsBody != null ? t.onboardingTapToConfigure : t.onboardingLaunchWiki,
                                     style: TextStyle(
-                                      color: colours.tertiaryLight,
+                                      color: colours.primaryDark,
                                       fontWeight: FontWeight.bold,
                                       fontSize: textXS,
                                       fontFamily: 'AtkinsonHyperlegible',

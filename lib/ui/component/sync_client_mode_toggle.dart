@@ -4,6 +4,7 @@ import 'package:GitSync/global.dart';
 import 'package:GitSync/providers/riverpod_providers.dart';
 import 'package:GitSync/ui/component/provider_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -29,6 +30,7 @@ class _SyncClientModeToggleState extends ConsumerState<SyncClientModeToggle> {
             ),
             child: TextButton.icon(
               onPressed: () async {
+                HapticFeedback.selectionClick();
                 if (widget.global) {
                   await repoManager.setBool(StorageKey.repoman_defaultClientModeEnabled, false);
                   setState(() {});
@@ -133,6 +135,7 @@ class _SyncClientModeToggleState extends ConsumerState<SyncClientModeToggle> {
             ),
             child: TextButton.icon(
               onPressed: () async {
+                HapticFeedback.selectionClick();
                 if (widget.global) {
                   await repoManager.setBool(StorageKey.repoman_defaultClientModeEnabled, true);
                   setState(() {});

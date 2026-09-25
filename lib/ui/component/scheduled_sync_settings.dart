@@ -4,6 +4,7 @@ import 'package:GitSync/api/helper.dart';
 import 'package:GitSync/constant/strings.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:GitSync/api/manager/storage.dart';
 import 'package:GitSync/constant/dimens.dart';
@@ -176,6 +177,7 @@ class _ScheduledSyncSettingsState extends State<ScheduledSyncSettings> with Widg
             child: Switch(
               value: isEnabled,
               onChanged: (value) async {
+                HapticFeedback.selectionClick();
                 _customFrequency = null;
                 _customRate = null;
                 _customError = false;

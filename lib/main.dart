@@ -2221,6 +2221,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> with WidgetsBindingObse
               final aiEnabled = ref.watch(aiFeaturesEnabledProvider).valueOrNull ?? true;
               return PageView(
                 controller: _pageController,
+                allowImplicitScrolling: true,
                 onPageChanged: (page) {
                   _tabIndex.value = page;
                   final homeIndex = aiEnabled ? 1 : 0;
@@ -4393,6 +4394,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> with WidgetsBindingObse
                           padding: EdgeInsets.symmetric(vertical: spaceXXS, horizontal: spaceSM),
                           child: Center(
                             child: Text.rich(
+                              style: TextStyle(color: colours.primaryDark),
                               textAlign: TextAlign.center,
                               TextSpan(
                                 children: [
@@ -4417,6 +4419,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> with WidgetsBindingObse
                         decoration: BoxDecoration(color: colours.tertiaryNegative),
                         padding: EdgeInsets.symmetric(vertical: spaceXXS, horizontal: spaceSM),
                         child: Text.rich(
+                          style: TextStyle(color: colours.primaryDark),
                           textAlign: TextAlign.center,
                           TextSpan(
                             children: [

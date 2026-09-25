@@ -195,7 +195,13 @@ class _DetailsWidgetState extends State<_DetailsWidget> {
             ],
           ),
         ),
-        if (_expanded && widget.bodyContent.isNotEmpty) MarkdownBlock(data: widget.bodyContent, config: widget.config, selectable: false),
+        AnimatedSize(
+          duration: animFast,
+          curve: Curves.easeOut,
+          child: _expanded && widget.bodyContent.isNotEmpty
+              ? MarkdownBlock(data: widget.bodyContent, config: widget.config, selectable: false)
+              : SizedBox.shrink(),
+        ),
       ],
     );
   }

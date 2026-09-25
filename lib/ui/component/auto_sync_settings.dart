@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:GitSync/api/manager/storage.dart';
 import 'package:animated_reorderable_list/animated_reorderable_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:GitSync/api/accessibility_service_helper.dart';
 import 'package:GitSync/constant/dimens.dart';
@@ -62,6 +63,7 @@ class _AutoSyncSettingsState extends State<AutoSyncSettings> {
                   child: Switch(
                     value: (Platform.isAndroid && (applicationPackagesSnapshot.data ?? {}).isEmpty) ? false : snapshot.data ?? false,
                     onChanged: (value) {
+                      HapticFeedback.selectionClick();
                       uiSettingsManager.setBool(StorageKey.setman_syncOnAppOpened, value);
                       setState(() {});
                     },
@@ -119,6 +121,7 @@ class _AutoSyncSettingsState extends State<AutoSyncSettings> {
                   child: Switch(
                     value: (Platform.isAndroid && (applicationPackagesSnapshot.data ?? {}).isEmpty) ? false : snapshot.data ?? false,
                     onChanged: (value) {
+                      HapticFeedback.selectionClick();
                       uiSettingsManager.setBool(StorageKey.setman_syncOnAppClosed, value);
                       setState(() {});
                     },
