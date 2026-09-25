@@ -1,0 +1,20 @@
+appId: de.repoautofix.reposyncai
+---
+# - pressKey: volume down
+# - clearState
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          appId: de.repoautofix.reposyncai
+          permissions:
+            all: deny
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp:
+          appId: de.repoautofix.reposyncai
+          permissions:
+            all: unset

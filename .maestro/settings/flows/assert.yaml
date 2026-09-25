@@ -1,0 +1,4 @@
+appId: de.repoautofix.reposyncai
+---
+
+- assertVisible: 'SETTINGS'

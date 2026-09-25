@@ -1,0 +1,7 @@
+appId: de.repoautofix.reposyncai
+---
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - assertVisible: 'Enable "All Files Access"'

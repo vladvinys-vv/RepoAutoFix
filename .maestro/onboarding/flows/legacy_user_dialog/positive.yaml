@@ -1,0 +1,9 @@
+appId: de.repoautofix.reposyncai
+---
+
+- runFlow:
+    when: 
+      visible: "Welcome to the New Version!"
+    commands:
+      - tapOn: "Set Up"
+

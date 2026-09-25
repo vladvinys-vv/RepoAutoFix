@@ -1,0 +1,4 @@
+appId: de.repoautofix.reposyncai
+---
+
+- assertNotVisible: "Authenticate with a Git Provider"

@@ -1,0 +1,11 @@
+appId: de.repoautofix.reposyncai
+---
+- runFlow: ./assert.yaml
+- scrollUntilVisible:
+    element: "GitSync"
+    direction: DOWN
+- tapOn: "GitSync"
+- assertVisible: "Use GitSync"
+- tapOn: "Use GitSync"
+- tapOn: "Allow"
+- back
