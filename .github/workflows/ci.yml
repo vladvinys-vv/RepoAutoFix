@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Flutter SDK
+        uses: flutter-actions/setup-flutter@v4
+        with:
+          channel: stable
+          version: 3.35.2
+
+      # lib/constant/secrets.dart is gitignored (real OAuth credentials live
+      # only in the release workflow's secrets). Analyze/tests need its
+      # symbols to exist, so stub them with empty values.
+      - name: Create stub secrets file
+        run: |
+          cat <<'EOF' > ./lib/constant/secrets.dart
+          const codebergClientId = '';
+          const giteaClientId = '';
+          const gitlabClientId = '';
+          const gitHubClientId = '';
+          const gitHubClientSecret = '';
+          const gitHubAppClientId = '';
+          const gitHubAppClientSecret = '';
+          EOF
+
+      - name: Get Packages
+        run: flutter pub get
+
+      # Fail on compile errors only: warnings/infos are printed in the log
+      # but do not block, so pre-existing issues do not mask real breakage.
+      - name: Analyze
+        run: flutter analyze --no-fatal-warnings --no-fatal-infos
+
+      - name: Run Tests
+        run: flutter test

@@ -1,27 +1,14 @@
-// This is a basic Flutter widget test.
+// Harness smoke test.
 //
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+// The original Flutter counter-app template could never run here (this app
+// has no counter and booting it in a test would need plugins/platform setup),
+// but a Dart file under test/ must expose main() for `flutter test` to load
+// it. Keep this placeholder green and put real coverage in dedicated test
+// files (see ai_provider_validator_test.dart, ai_sensitive_path_test.dart).
+import 'package:flutter_test/flutter_test.dart';
 
-// import '../main.dart';
-
-// void main() {
-//   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-//     // Build our app and trigger a frame.
-//     await tester.pumpWidget(const MyApp());
-
-//     // Verify that our counter starts at 0.
-//     expect(find.text('0'), findsOneWidget);
-//     expect(find.text('1'), findsNothing);
-
-//     // Tap the '+' icon and trigger a frame.
-//     await tester.tap(find.byIcon(Icons.add));
-//     await tester.pump();
-
-//     // Verify that our counter has incremented.
-//     expect(find.text('0'), findsNothing);
-//     expect(find.text('1'), findsOneWidget);
-//   });
-// }
+void main() {
+  test('test harness is wired up', () {
+    expect(2 + 2, 4);
+  });
+}
