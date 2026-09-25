@@ -1,0 +1,4 @@
+appId: de.repoautofix.reposyncai
+---
+- tapOn: "deselect directory"
+- assertVisible: "NO COMMITS FOUND…"

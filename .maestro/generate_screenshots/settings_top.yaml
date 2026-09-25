@@ -1,0 +1,16 @@
+appId: de.repoautofix.reposyncai
+---
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp:
+          appId: de.repoautofix.reposyncai
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          appId: de.repoautofix.reposyncai
+- assertVisible: "GitSync"
+- tapOn: "repository settings"

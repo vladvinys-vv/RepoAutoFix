@@ -1,0 +1,10 @@
+appId: de.repoautofix.reposyncai
+---
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          appId: de.repoautofix.reposyncai
+      - assertVisible: "AUTH.*"
+      - tapOn: "disable/enable sync messages"

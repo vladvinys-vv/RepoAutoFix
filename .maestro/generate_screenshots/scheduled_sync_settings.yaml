@@ -1,0 +1,23 @@
+appId: de.repoautofix.reposyncai
+---
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp:
+          appId: de.repoautofix.reposyncai
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          appId: de.repoautofix.reposyncai
+- assertVisible: "GitSync"
+- runFlow:
+    when:
+      notVisible: "DON'T SYNC"
+    commands:
+      - tapOn: "Scheduled Sync Settings"
+- scroll
+- scroll
+- takeScreenshot: generate_screenshots/raw/screenshot_scheduled_sync_settings

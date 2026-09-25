@@ -1,0 +1,18 @@
+appId: de.repoautofix.reposyncai
+---
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          appId: de.repoautofix.reposyncai
+          permissions:
+            all: allow
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp:
+          appId: de.repoautofix.reposyncai
+          permissions:
+            all: unset
