@@ -1,0 +1,22 @@
+[package]
+name = "repoautofix-ai-agent"
+version = "0.1.0"
+edition = "2021"
+description = "AI-powered fix agent for RepoAutoFix"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+repoautofix-core = { path = "../core" }
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+async-trait = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+rig-core = { workspace = true }
+rig-openai = { workspace = true }
+rig-anthropic = { workspace = true }
+schemars = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true }

@@ -1,0 +1,16 @@
+[package]
+name = "repoautofix-github-action"
+version = "0.1.0"
+edition = "2021"
+description = "GitHub Action for RepoAutoFix"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+octocrab = "0.28"
+
+[dev-dependencies]
+tokio = { workspace = true }
