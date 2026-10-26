@@ -1,0 +1,4 @@
+appId: de.repoautofix.reposyncai
+---
+- tapOn: "OBSIDIAN"
+- takeScreenshot: generate_screenshots/raw/screenshot_select_apps

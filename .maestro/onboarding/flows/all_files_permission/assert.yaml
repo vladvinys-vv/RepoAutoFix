@@ -1,0 +1,7 @@
+appId: de.repoautofix.reposyncai
+---
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - assertVisible: "Allow access to manage all files"

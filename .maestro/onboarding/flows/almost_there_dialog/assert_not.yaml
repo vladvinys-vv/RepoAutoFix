@@ -1,0 +1,3 @@
+appId: de.repoautofix.reposyncai
+---
+- assertNotVisible: "Almost there!"

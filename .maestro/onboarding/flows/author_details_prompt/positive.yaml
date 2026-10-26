@@ -1,0 +1,5 @@
+appId: de.repoautofix.reposyncai
+---
+
+- runFlow: ./assert.yaml
+- tapOn: "Go to Settings"

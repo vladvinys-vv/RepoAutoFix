@@ -1,0 +1,4 @@
+appId: de.repoautofix.reposyncai
+---
+
+- assertNotVisible: "Select a folder to clone into"

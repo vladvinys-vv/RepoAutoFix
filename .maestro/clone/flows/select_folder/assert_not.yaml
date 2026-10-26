@@ -1,0 +1,5 @@
+appId: de.repoautofix.reposyncai
+---
+
+- assertNotVisible: "USE THIS FOLDER"
+- assertNotVisible: "Documents"

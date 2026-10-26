@@ -1,0 +1,12 @@
+appId: de.repoautofix.reposyncai
+---
+
+- runFlow: ../assert.yaml
+- runFlow:
+    when: 
+      notVisible: "GITEA"
+    commands:
+      - tapOn: ".*auth dropdown"
+      - assertVisible: "GITEA"
+      - tapOn: "GITEA"
+- tapOn: "OAUTH"

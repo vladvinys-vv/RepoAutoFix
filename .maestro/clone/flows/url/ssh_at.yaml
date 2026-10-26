@@ -1,0 +1,7 @@
+appId: de.repoautofix.reposyncai
+---
+- runFlow: ./assert.yaml
+- tapOn: "https://git.abc/xyz.git"
+- inputText: ${MAESTRO_SSH_CLONE_AT_URL}
+- hideKeyboard
+- tapOn: "CLONE"
