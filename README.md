@@ -202,3 +202,63 @@ If you'd like to know what's still untranslated for a given locale, see [`untran
 
 - [flutter_rust_bridge](https://github.com/fzyzcjy/flutter_rust_bridge)
 - [git2-rs](https://github.com/rust-lang/git2-rs)
+
+## 🇩🇪 German API Integrations
+
+RepoSync AI can integrate with German APIs for developer productivity:
+
+| API | Purpose | Auth | Integration |
+|---|---|---|---|
+| [OpenRegister (Handelsregister)](https://openregister.de/api) | 4M+ German companies for org verification | `apiKey` | GitHub/GitLab org verification |
+| [Bundestag DIP API](https://dip.bundestag.de/ueber-dip/hilfe/api) | German digital law, open source regulations | No | Compliance reference |
+| [Gesetze im Internet](https://www.gesetze-im-internet.de/) | UrhG, TDDDG, DSGVO for code licensing | No | Legal reference for licensing |
+| [Feiertage API](https://feiertage-api.de/api/?jahr=2026) | Official holidays for scheduled syncs | No | Background sync scheduling |
+| [OpenPlz API](https://openplzapi.org/de/Localities) | German postal codes for team locations | No | Geo-distributed team support |
+
+> **Note:** APIs marked with `apiKey` require environment variables in `lib/constant/secrets.dart`.
+
+## 🤖 AI Agent Skills Integration
+
+### Recommended Skill Collections
+```bash
+# Skill management
+npm install -g @skillkit/cli && skillkit init
+skillkit recommend
+
+# Flutter / Rust / Git / AI skills
+npx skills add seb1n/awesome-ai-agent-skills --skill flutter,rust,git,ai
+npx skills add thongdn-it/react-agent-skills --skill flutter,rust
+
+# Security scan before install
+npm install -g @nvidia/skillspector
+skillspector scan <repo-url>
+```
+
+### MCP Server Configuration
+Add to agent config (`.claude/settings.json`, `kilo.jsonc`):
+```json
+{
+  "mcpServers": {
+    "browser": "browser-use/browser-use",
+    "openregister": "openregister/openregister-sdk",
+    "github": "github/github-mcp-server",
+    "gitlab": "gitlab/gitlab-mcp"
+  }
+}
+```
+
+### Subagent Delegation (Kilo Multi-Agent)
+Use native `task(agent="...", ...)` for specialized work:
+- `task(agent="architect", ...)` — Before new modules, FFI bridge changes, sync protocol changes
+- `task(agent="debugger", ...)` — Test failures, Rust FFI crashes, Flutter analyze issues
+- `task(agent="revisor", ...)` — Pre-commit: security scan, secret redaction audit, diff analysis
+- `task(agent="security-reviewer", ...)` — Secret redaction validation, OAuth flow audit
+
+### Verification Gates (Required per Commit)
+```bash
+flutter analyze && flutter test && cargo check --manifest-path rust/Cargo.toml
+# Secret scanning (critical for this project!)
+npx -y gitleaks detect --no-git -v
+```
+
+## Contributing

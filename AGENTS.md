@@ -31,3 +31,56 @@ HANDOFF.md is the full contract (mission, queue, acceptance per task).
 ## Conventions
 - Dart: Effective Dart, clean separation between Flutter UI and Rust FFI bridge
 - One feature per commit; commit message format: `T<id>: <what>` or conventional commit
+
+## AI Agent Skills & MCP Integration (2026)
+
+### Recommended Skill Collections
+```bash
+# Skill management
+npm install -g @skillkit/cli && skillkit init
+skillkit recommend
+
+# Flutter / Rust / Git / AI skills
+npx skills add seb1n/awesome-ai-agent-skills --skill flutter,rust,git,ai
+npx skills add thongdn-it/react-agent-skills --skill flutter,rust
+
+# Security scan before install
+npm install -g @nvidia/skillspector
+skillspector scan <repo-url>
+```
+
+### MCP Server Configuration
+Configure in agent settings (`.claude/settings.json`, `kilo.jsonc`):
+```json
+{
+  "mcpServers": {
+    "browser": "browser-use/browser-use",
+    "openregister": "openregister/openregister-sdk",
+    "github": "github/github-mcp-server",
+    "gitlab": "gitlab/gitlab-mcp"
+  }
+}
+```
+
+### German API Integration Points
+| API | MCP/REST | Use Case | Config |
+|---|---|---|---|
+| OpenRegister | REST + SDK | GitHub/GitLab org verification | `OPENREGISTER_API_KEY` |
+| Bundestag DIP | REST | Compliance reference (UrhG, TDDDG, DSGVO) | No auth |
+| Gesetze im Internet | REST | Legal reference for licensing | No auth |
+| Feiertage | REST | Background sync scheduling | No auth |
+| OpenPlz | REST | Geo-distributed team support | No auth |
+
+### Subagent Delegation (Kilo Multi-Agent)
+Use native `task(agent="...", ...)` for specialized work:
+- `task(agent="architect", ...)` — Before new modules, FFI bridge changes, sync protocol changes
+- `task(agent="debugger", ...)` — Test failures, Rust FFI crashes, Flutter analyze issues
+- `task(agent="revisor", ...)` — Pre-commit: security scan, secret redaction audit, diff analysis
+- `task(agent="security-reviewer", ...)` — Secret redaction validation, OAuth flow audit
+
+### Verification Gates (Required per Commit)
+```bash
+flutter analyze && flutter test && cargo check --manifest-path rust/Cargo.toml
+# Secret scanning (critical for this project!)
+npx -y gitleaks detect --no-git -v
+```
