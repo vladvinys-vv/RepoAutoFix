@@ -1,0 +1,16 @@
+[package]
+name = "repoautofix-pre-commit"
+version = "0.1.0"
+edition = "2021"
+description = "Pre-commit hook for RepoAutoFix"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+anyhow = { workspace = true }
+serde = { workspace = true }
+tokio = { workspace = true }
+clap = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true }
+tempfile = { workspace = true }

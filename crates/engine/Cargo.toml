@@ -1,0 +1,26 @@
+[package]
+name = "repoautofix-engine"
+version = "0.1.0"
+edition = "2021"
+description = "Fix engine for RepoAutoFix"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+repoautofix-core = { path = "../core" }
+repoautofix-adapter-dart = { path = "../adapters/dart" }
+repoautofix-adapter-rust = { path = "../adapters/rust" }
+repoautofix-adapter-typescript = { path = "../adapters/typescript" }
+repoautofix-adapter-python = { path = "../adapters/python" }
+repoautofix-adapter-go = { path = "../adapters/go" }
+repoautofix-policy = { path = "../policy" }
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+async-trait = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+walkdir = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true }
+tempfile = { workspace = true }

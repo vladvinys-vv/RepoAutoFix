@@ -1,0 +1,56 @@
+# RepoAutoFix Configuration
+version: 1
+
+# Languages to process (auto-detected if not specified)
+# languages:
+#   - rust
+#   - dart
+#   - typescript
+#   - python
+#   - go
+
+policy:
+  # Global settings
+  max_files_per_run: 50
+  max_edits_per_file: 20
+  require_tests_pass: true
+  require_clean_git: true
+  dry_run_default: true
+  
+  # Per-language overrides (optional)
+  # overrides:
+  #   rust:
+  #     max_edits_per_file: 10
+  #   dart:
+  #     enable_ai: true
+
+# Rule customization
+rules:
+  - pattern: "unused_import"
+    action: "auto_apply"
+  - pattern: "clippy::unwrap_used"
+    action: "ai_assist"
+    languages: ["rust"]
+  - pattern: "security/"
+    action: "require_review"
+
+# AI Configuration
+ai:
+  provider: "anthropic"
+  model: "claude-3-5-sonnet-20241022"
+  max_rounds: 10
+  temperature: 0.1
+  allowed_tools: ["read_file", "edit_file", "run_lint", "run_tests", "search_code"]
+
+# CI/CD
+ci:
+  fail_on_remaining: true
+  create_pr: true
+  pr_labels: ["autofix", "bot"]
+  pr_reviewers: ["team-leads"]
+
+# Pre-commit
+pre_commit:
+  enabled: true
+  staged_only: true
+  timeout_seconds: 30
