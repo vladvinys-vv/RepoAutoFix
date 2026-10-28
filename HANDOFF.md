@@ -3,6 +3,14 @@
 ## Mission
 Deliver a reliable, private mobile Git synchronization client combining Rust libgit2 performance with on-device AI repo assistance, secure OAuth flows, and background file syncing.
 
+## Current Status (October 2026)
+- **Unified Location:** Standardized at `C:\Users\vladv\projects\RepoAutoFix`.
+- **Default Branch:** `main` (clean, synchronized with `origin/main`).
+- **Google Jules Agent Integration:** Integrated `.jules/config.json`, `.jules/rules.md`, and `.github/workflows/jules.yml`.
+- **Hygiene & Standards:**
+  - Modern Flutter + Rust codebase.
+  - Added `AGENTS.md` and this `HANDOFF.md`.
+
 ## Boundaries
 - Allowed write paths: `lib/`, `rust/src/`, `test/`, `docs/`, WORKLOG.md, STUCK.md, STATUS.md, requests/
 - Do not touch: upstream license notices (`LICENSE.md`), release keystores
@@ -12,13 +20,9 @@ Deliver a reliable, private mobile Git synchronization client combining Rust lib
 - OS: Windows 11 (Git Bash). Runtimes: Flutter SDK, Dart, Rust stable (cargo), Android NDK.
 - External services: GitHub, GitLab, Gitea OAuth, AI model providers (OpenAI, Anthropic, Google)
 
-## Finish line
-Repository default branch is `main`, clean git status, and diagnostics pass.
-
-## Queue
-### T1: Documentation and workspace standardization
-- Goal: Establish AGENTS.md, HANDOFF.md, ensure secrets redaction guidelines and FFI boundaries are documented.
-- Context: Cloned into unified `projects/` directory, default branch confirmed as main.
-- Constraints: Read-only check.
-- Done when: `AGENTS.md` and `HANDOFF.md` present, working directory clean on main.
-- Not acceptable: committing real API keys or OAuth secrets.
+## Verification Commands
+```bash
+flutter analyze
+cargo check --manifest-path rust/Cargo.toml
+flutter test
+```

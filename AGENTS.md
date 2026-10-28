@@ -17,6 +17,11 @@ HANDOFF.md is the full contract (mission, queue, acceptance per task).
 - Language check (must print nothing before each commit):
   `git -C C:/Users/vladv/projects/RepoAutoFix diff --cached | grep -nP '[\x{4e00}-\x{9fff}]' || true`
 
+## Google Jules Agent Integration
+- **Configuration:** `.jules/config.json` specifies `gemini-2.5-pro` model, `flutter pub get` setup, and `flutter analyze` / `flutter test` verification.
+- **Rules & Guardrails:** `.jules/rules.md` enforces Rust FFI memory safety, flutter_rust_bridge integrity, and zero secret leakage.
+- **CI/CD Automation:** `.github/workflows/jules.yml` triggers automated Flutter analyze and Cargo check on labeled issues or pull requests.
+
 ## Boundaries
 - Workspace: C:\Users\vladv\projects\RepoAutoFix
 - Allowed write paths: `lib/`, `rust/src/`, `test/`, `docs/`, `WORKLOG.md`, `STUCK.md`, `STATUS.md`, `requests/`

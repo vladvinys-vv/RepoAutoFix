@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "engine": "gemini-2.5-pro",
+  "environment": {
+    "setup": "flutter pub get",
+    "test": "flutter test",
+    "typecheck": "flutter analyze",
+    "lint": "flutter analyze"
+  },
+  "branch_prefix": "jules/"
+}
