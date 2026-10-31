@@ -873,7 +873,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get accessibilityServiceDisclosureTitle => '无障碍服务声明';
 
   @override
-  String get accessibilityServiceDisclosureMessage => '为了提升你的体验，\nRepoSync AI 使用安卓的无障碍服务来检测应用何时打开或关闭。\n\n这有助于我们提供定制功能，而不会存储或共享任何数据。\n\n请在下一页启用 RepoSync AI';
+  String get accessibilityServiceDisclosureMessage =>
+      '为了提升你的体验，\nRepoSync AI 使用安卓的无障碍服务来检测应用何时打开或关闭。\n\n这有助于我们提供定制功能，而不会存储或共享任何数据。\n\n请在下一页启用 RepoSync AI';
 
   @override
   String get search => '搜索';
@@ -3309,7 +3310,8 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get accessibilityServiceDisclosureTitle => '無障礙服務聲明';
 
   @override
-  String get accessibilityServiceDisclosureMessage => '爲了提升你的體驗，\nRepoSync AI 使用安卓的無障礙服務來檢測應用何時打開或關閉。\n\n這有助於我們提供定製功能，而不會存儲或共享任何數據。\n\n請在下一頁啓用 RepoSync AI';
+  String get accessibilityServiceDisclosureMessage =>
+      '爲了提升你的體驗，\nRepoSync AI 使用安卓的無障礙服務來檢測應用何時打開或關閉。\n\n這有助於我們提供定製功能，而不會存儲或共享任何數據。\n\n請在下一頁啓用 RepoSync AI';
 
   @override
   String get search => '搜索';
