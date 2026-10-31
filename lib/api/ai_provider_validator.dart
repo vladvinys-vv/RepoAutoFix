@@ -1,7 +1,12 @@
 import 'dart:convert';
-
-import 'package:GitSync/api/helper.dart';
 import 'package:http/http.dart' as http;
+
+Future<http.Response> _httpGet(Uri url, {Map<String, String>? headers}) => http
+    .get(url, headers: headers)
+    .timeout(
+      const Duration(seconds: 10),
+      onTimeout: () => http.Response('Error', 408),
+    );
 
 enum AiProvider { anthropic, openai, google, selfHosted }
 
@@ -17,14 +22,14 @@ Future<String?> validateAiApiKey({required AiProvider provider, required String 
     final http.Response response;
     switch (provider) {
       case AiProvider.anthropic:
-        response = await httpGet(Uri.parse('https://api.anthropic.com/v1/models'), headers: {'x-api-key': apiKey, 'anthropic-version': '2023-06-01'});
+        response = await _httpGet(Uri.parse('https://api.anthropic.com/v1/models'), headers: {'x-api-key': apiKey, 'anthropic-version': '2023-06-01'});
       case AiProvider.openai:
-        response = await httpGet(Uri.parse('https://api.openai.com/v1/models'), headers: {'Authorization': 'Bearer $apiKey'});
+        response = await _httpGet(Uri.parse('https://api.openai.com/v1/models'), headers: {'Authorization': 'Bearer $apiKey'});
       case AiProvider.google:
-        response = await httpGet(Uri.parse('https://generativelanguage.googleapis.com/v1/models'), headers: {'x-goog-api-key': apiKey});
+        response = await _httpGet(Uri.parse('https://generativelanguage.googleapis.com/v1/models'), headers: {'x-goog-api-key': apiKey});
       case AiProvider.selfHosted:
         final normalized = normalizeEndpoint(endpoint!);
-        response = await httpGet(Uri.parse('$normalized/models'), headers: {'Authorization': 'Bearer $apiKey'});
+        response = await _httpGet(Uri.parse('$normalized/models'), headers: {'Authorization': 'Bearer $apiKey'});
     }
 
     if (response.statusCode == 408) return 'Connection timed out';
@@ -101,14 +106,14 @@ Future<(List<String>, String?)> fetchAvailableModels({required AiProvider provid
     final http.Response response;
     switch (provider) {
       case AiProvider.anthropic:
-        response = await httpGet(Uri.parse('https://api.anthropic.com/v1/models'), headers: {'x-api-key': apiKey, 'anthropic-version': '2023-06-01'});
+        response = await _httpGet(Uri.parse('https://api.anthropic.com/v1/models'), headers: {'x-api-key': apiKey, 'anthropic-version': '2023-06-01'});
       case AiProvider.openai:
-        response = await httpGet(Uri.parse('https://api.openai.com/v1/models'), headers: {'Authorization': 'Bearer $apiKey'});
+        response = await _httpGet(Uri.parse('https://api.openai.com/v1/models'), headers: {'Authorization': 'Bearer $apiKey'});
       case AiProvider.google:
-        response = await httpGet(Uri.parse('https://generativelanguage.googleapis.com/v1/models'), headers: {'x-goog-api-key': apiKey});
+        response = await _httpGet(Uri.parse('https://generativelanguage.googleapis.com/v1/models'), headers: {'x-goog-api-key': apiKey});
       case AiProvider.selfHosted:
         final normalized = normalizeEndpoint(endpoint!);
-        response = await httpGet(Uri.parse('$normalized/models'), headers: {'Authorization': 'Bearer $apiKey'});
+        response = await _httpGet(Uri.parse('$normalized/models'), headers: {'Authorization': 'Bearer $apiKey'});
     }
 
     if (response.statusCode == 408) return (<String>[], 'Connection timed out. Check your network and try again.');
