@@ -2218,7 +2218,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get githubScopedRepoTitle => 'Etapa 2: Selecionar Repositórios';
 
   @override
-  String get githubScopedRepoMsg => 'Escolha quais repositórios o RepoSync AI pode acessar.\n\nQuando terminar, feche o navegador para retornar ao app.';
+  String get githubScopedRepoMsg =>
+      'Escolha quais repositórios o RepoSync AI pode acessar.\n\nQuando terminar, feche o navegador para retornar ao app.';
 
   @override
   String get issueDescription => 'Descrição';
